@@ -1,0 +1,44 @@
+CREATE PROCEDURE [dbo].[SP_DeleteAllContact]
+	
+AS
+	delete  FROM [dbo].[Contact]
+RETURN 0
+
+CREATE procedure [dbo].[SP_InsertContact]
+@Nom NVARCHAR(50),
+@Adresse NVARCHAR(50),
+@NumTel NVARCHAR(50),
+@Mail NVARCHAR(50),
+@SiteWeb NVARCHAR(50),
+@ImageLink NVARCHAR(150),
+@UserId int
+as
+insert into [dbo].[Contact] (Nom, Adresse, NumTel, Mail, SiteWeb, ImageLink, UserId)
+values (@Nom, @Adresse, @NumTel, @Mail, @SiteWeb , @ImageLink, @UserId)
+return 0
+
+CREATE PROCEDURE [dbo].[SP_SelectContact]
+	@UserId int
+AS
+	SELECT * FROM [dbo].[Contact] WHERE UserId=@UserId
+RETURN 0
+
+CREATE procedure [dbo].[SP_UpdateContact]
+@Id int,
+@Nom NVARCHAR(50),
+@Adresse NVARCHAR(50),
+@NumTel NVARCHAR(50),
+@Mail NVARCHAR(50),
+@SiteWeb NVARCHAR(50),
+@ImageLink NVARCHAR(150)
+as
+update [dbo].[Contact]
+set Nom=@Nom, Adresse=@Adresse, NumTel=@NumTel, Mail=@Mail, SiteWeb=@SiteWeb , ImageLink=@ImageLink
+where Id=@Id
+return 0
+
+CREATE PROCEDURE [dbo].[SP_DeleteContact]
+	@Id int
+AS
+	Delete From [dbo].[Contact] Where Id=@Id
+RETURN 0

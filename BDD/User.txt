@@ -1,0 +1,46 @@
+CREATE PROCEDURE [dbo].[SP_DeleteUser]
+	@Id int
+AS
+	Delete From [dbo].[User] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertUser]
+	@Nom NVARCHAR(50),
+	@Prenom NVARCHAR(50),
+	@UserName NVARCHAR(50),
+	@PWD NVARCHAR(50)
+AS
+	Insert into [dbo].[User] (Nom, Prenom, UserName, PWD)
+	values (@Nom, @Prenom, @UserName, @PWD)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectUser]
+	@UserName NVARCHAR(50),
+	@PWD NVARCHAR(50)
+AS
+	SELECT * FROM [dbo].[User] WHERE UserName=@UserName AND PWD=@PWD
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectUserId]
+	@Id int
+AS
+	SELECT * FROM [dbo].[User] WHERE Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectUserName]
+	@UserName NVARCHAR(50)
+AS
+	SELECT * FROM [dbo].[User] WHERE UserName=@UserName
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateUser]
+	@Id int,
+	@Nom NVARCHAR(50),
+	@Prenom NVARCHAR(50),
+	@UserName NVARCHAR(50),
+	@PWD NVARCHAR(50)
+AS
+	Update [dbo].[User]
+	Set Nom=@Nom, Prenom=@Prenom, UserName=@UserName, PWD=@PWD
+	Where Id=@Id
+RETURN 0

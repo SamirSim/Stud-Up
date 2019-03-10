@@ -1,0 +1,37 @@
+CREATE PROCEDURE [dbo].[SP_DeleteAlerte]
+	@Id int
+AS
+	Delete From [dbo].[Alerte] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertAlerte]
+	
+	@TypeId int,
+@Type nvarchar(10),
+@Nom nvarchar(25),
+@DateHeure DATETIME,
+@NombreRappel int,
+@Etat nvarchar(10),
+@UserId int 
+AS
+	Insert into [dbo].[Alerte] ( TypeId, Type, Nom, DateHeure,NombreRappel,Etat,UserId)
+	values ( @TypeId, @Type, @Nom, @DateHeure,@NombreRappel,@Etat,@UserId)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectAlerte]
+	@UserId int
+AS
+	select Id,TypeId,Type,convert(varchar,DateHeure,120) as DateHeure,NombreRappel,Etat FROM [dbo].[Alerte] WHERE UserId=@UserId
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateAlerte]
+@Id int,	
+@Nom nvarchar(25),
+@DateHeure DATETIME,
+@NombreRappel int,
+@Etat nvarchar(10)
+AS
+	Update [dbo].[Alerte]
+	Set Nom=@Nom,  DateHeure=@DateHeure,NombreRappel=@NombreRappel, Etat=@Etat
+	Where Id=@Id
+RETURN 0

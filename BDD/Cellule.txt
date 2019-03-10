@@ -1,0 +1,62 @@
+CREATE PROCEDURE [dbo].[SP_DeleteCellule]
+	@Id int
+
+AS
+	Delete From [dbo].[CelluleEmp] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertCellule]
+	@Abrv NVARCHAR(50),
+	@Designation NVARCHAR(50),
+	@HeureDebut time(7),
+	@HeureFin time(7),
+	@Salle NVARCHAR(50),
+	@Jour int,
+	@Type int,
+	@Enseignant NVARCHAR(70),
+	@UserId int
+AS
+	Insert into [dbo].[CelluleEmp] (Abrv, Designation, HeureDebut,HeureFin, Salle, Jour, Type, Enseignant, UserId)
+	values (@Abrv, @Designation, @HeureDebut,@HeureFin, @Salle, @Jour, @Type, @Enseignant, @UserId)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectCellule]
+	@UserId int
+AS
+	select Id,Abrv,Designation,substring(convert(varchar,HeureDebut,108),0,6) as HeureDebut,substring(convert(varchar,HeureFin,108),0,6) as HeureFin,Salle,Jour,Type,Enseignant,UserId  FROM [dbo].[CelluleEmp] WHERE UserId=@UserId
+RETURN 0
+
+
+CREATE PROCEDURE [dbo].[SP_UpdateCellule]
+	@Id int,
+	@Abrv NVARCHAR(50),
+	@Designation NVARCHAR(50),
+	@HeureDebut time(7),
+	@HeureFin time(7),
+	@Salle NVARCHAR(50),
+	@Jour int,
+	@Type int,
+	@Enseignant NVARCHAR(50)
+AS
+	Update [dbo].[CelluleEmp]
+	Set Abrv=@Abrv, Designation=@Designation, HeureDebut=@HeureDebut,HeureFin=@HeureFin, Salle=@Salle, Jour=@Jour, Type=@Type, Enseignant=@Enseignant
+	Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectCelluleTime]
+	@UserId int,
+	@Jour int,
+	@HeureDebut Time(7),
+	@HeureFin Time(7)
+AS
+	SELECT * FROM [dbo].[CelluleEmp] WHERE (UserId=@UserId and  Jour=@Jour and ((HeureDebut != @HeureFin and @HeureDebut between  HeureDebut And  HeureFin)  or (HeureFin != @HeureDebut and @HeureFin between  HeureDebut And  HeureFin)  ))
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SimulCours]
+	@DateDebut time(7),
+	@DateFin time(7),
+	@Jour int,
+	@UserId int
+AS
+	SELECT * FROM [dbo].[CelluleEmp] WHERE (@UserId=UserId) AND (@Jour=Jour) AND ( (@DateFin>HeureDebut AND @DateFin<HeureFin) OR (@DateDebut>HeureDebut AND @DateDebut<HeureFin) OR (@DateDebut<HeureDebut AND @DateFin>HeureFin) OR (@DateDebut=HeureDebut) OR (@DateFin=HeureFin))
+RETURN 0

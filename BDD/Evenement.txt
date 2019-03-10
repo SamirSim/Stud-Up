@@ -1,0 +1,48 @@
+CREATE PROCEDURE [dbo].[SP_DeleteEvenement]
+	@Id int
+AS
+	Delete From [dbo].[Evenement] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertEvenement]
+	@Designation NVARCHAR(50),
+	@DateHeure DateTime,
+	@Lieu NVARCHAR(50),
+	@UserId int,
+	@DateFin Datetime,
+	@Commentaire NVARCHAR(100),
+	@Alerte INT
+
+AS
+	Insert into [dbo].[Evenement] (Designation, DateHeure, Lieu, UserId,DateFin,Commentaire,Alerte)
+	values (@Designation, @DateHeure, @Lieu, @UserId,@DateFin,@Commentaire,@Alerte)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectEvenement]
+	@UserId int
+AS
+	SELECT Id,Designation,substring(convert(varchar,DateHeure,120),0,17) as HeureDebut,Lieu,substring(convert(varchar,DateFin,120),0,17) as HeureFin,Commentaire,Alerte FROM [dbo].[Evenement] WHERE UserId=@UserId
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateEvenement]
+	@Id int,
+	@Designation NVARCHAR(50),
+	@DateHeure DateTime,
+	@Lieu NVARCHAR(50),
+	@DateFin Datetime,
+	@Commentaire NVARCHAR(100),
+	@Alerte INT
+
+AS
+	Update [dbo].[Evenement]
+	Set Designation=@Designation, DateHeure=@DateHeure, Lieu=@Lieu, DateFin=@DateFin, Commentaire=@Commentaire, Alerte = @Alerte
+	Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SimulEvent]
+	@DateDebut Datetime,
+	@DateFin Datetime,
+	@UserId int
+AS
+	SELECT * FROM [dbo].[Evenement] WHERE (@UserId=UserId) AND ((@DateFin>DateHeure AND @DateFin<DateFin) OR (@DateDebut>DateHeure AND @DateDebut<DateFin) OR (@DateDebut<DateHeure AND @DateFin>DateFin) OR (@DateDebut=DateHeure) OR (@DateFin=DateFin))
+RETURN 0

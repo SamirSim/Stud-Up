@@ -1,0 +1,30 @@
+CREATE PROCEDURE [dbo].[SP_DeleteActivite]
+	@Id int
+AS
+	Delete From [dbo].[Activite] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertActivite]
+	@Designation NVARCHAR(50),
+	@TypeActivite NVARCHAR(50),
+	@UserId int
+AS
+	Insert into [dbo].[Activite] (Designation, TypeActivite, UserId)
+	values (@Designation, @TypeActivite, @UserId)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectActivite]
+	@UserId int
+AS
+	SELECT * FROM [dbo].[Activite] WHERE UserId=@UserId
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateActivite]
+	@Id int,
+	@Designation NVARCHAR(50),
+	@TypeActivite NVARCHAR(50)
+AS
+	Update [dbo].[Activite]
+	Set Designation=@Designation, TypeActivite=@TypeActivite
+	Where Id=@Id
+RETURN 0

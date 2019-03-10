@@ -1,0 +1,37 @@
+CREATE PROCEDURE [dbo].[SP_DeleteParametres]
+	@Id int
+AS
+	Delete From [dbo].[Parametres] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertParametres]
+	@ImageLink NVARCHAR(150),
+	@Theme NVARCHAR(50),
+	@UserId INT,
+	@PremierJour NVARCHAR(50),
+	@HeureDebut NVARCHAR(50),
+	@HeureFin NVARCHAR(50)
+AS
+	Insert into [dbo].Parametres (ImageLink,Theme,UserId,PremierJour,HeureDebut,HeureFin)
+	values (@ImageLink,@Theme,@UserId,@PremierJour,@HeureDebut,@HeureFin)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectParametres]
+	@UserId INT
+AS
+	SELECT * From [dbo].[Parametres] Where UserId=@UserId
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateParametres]
+	@UserId INT,
+	@ImageLink NVARCHAR(150),
+	@Theme NVARCHAR(50),
+	@PremierJour NVARCHAR(50),
+	@HeureDebut NVARCHAR(50),
+	@HeureFin NVARCHAR(50)
+AS
+	Update [dbo].[Parametres]
+	Set ImageLink=@ImageLink, Theme=@Theme, PremierJour=@PremierJour,HeureDebut=@HeureDebut,HeureFin=@HeureFin
+	Where UserId=@UserId
+RETURN 0
+

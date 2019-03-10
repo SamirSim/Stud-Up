@@ -1,0 +1,49 @@
+CREATE PROCEDURE [dbo].[SP_DeleteTache]
+	@Id int
+AS
+	Delete From [dbo].[Tache] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertTache]
+	@Designation NVARCHAR(50),
+	@Priorite int,
+	@DateHeure DateTime,
+	@Etat int,
+	@ActiviteId int,
+	@DateFin datetime,
+	@Commentaire NVARCHAR(100),
+	@Alerte INT,
+	@Util int
+AS
+	Insert into [dbo].[Tache] (Designation, Priorite, DateHeure, Etat, ActiviteId, DateFin, Commentaire, Alerte, Util)
+	values (@Designation, @Priorite, @DateHeure, @Etat, @ActiviteId,@DateFin,@Commentaire,@Alerte,@Util)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectTache]
+	@ActiviteId int
+AS
+	SELECT Id,Designation,Priorite,substring(convert(varchar,DateHeure,120),0,17) as HeureDebut,Etat,ActiviteId,substring(convert(varchar,DateFin,120),0,17) as HeureFin,Commentaire,Alerte,Util FROM [dbo].[Tache] WHERE ActiviteId=@ActiviteId
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateTache]
+	@Id int,
+	@Designation NVARCHAR(50),
+	@Priorite int,
+	@DateHeure DateTime,
+	@Etat int,
+	@DateFin Datetime,
+	@Commentaire NVARCHAR(100),
+	@Alerte INT
+AS
+	Update [dbo].[Tache]
+	Set Designation=@Designation, Priorite=@Priorite, DateHeure=@DateHeure, Etat=@Etat, DateFin=@DateFin, Commentaire=@Commentaire, Alerte = @Alerte
+	Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SimulTache]
+	@DateDebut Datetime,
+	@DateFin Datetime,
+	@Util int
+AS
+	SELECT * FROM [dbo].[Tache] WHERE (@Util=Util) AND ( (@DateFin>DateHeure AND @DateFin<DateFin) OR (@DateDebut>DateHeure AND @DateDebut<DateFin) OR (@DateDebut<DateHeure AND @DateFin>DateFin) OR (@DateDebut=DateHeure) OR (@DateFin=DateFin))
+RETURN 0

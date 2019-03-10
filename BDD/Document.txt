@@ -1,0 +1,59 @@
+CREATE PROCEDURE [dbo].[SP_DeleteDocument]
+	@Id int
+AS
+	Delete From [dbo].[Document] Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_InsertDocument]
+	@Titre NVARCHAR(50),
+	@Emplacement NVARCHAR(100),
+	@TacheId int
+AS
+	Insert into [dbo].[Document] (Titre, Emplacement, TacheId)
+	values (@Titre, @Emplacement, @TacheId)
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_RechDocument]
+	@TacheId int
+AS
+	SELECT * FROM [dbo].[Document] WHERE TacheId = @TacheId;
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_RechDocumentEvent]
+	@EventId int
+AS
+	SELECT * FROM [dbo].[DocumentEvent] WHERE EventId = @EventId;
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectDocument]
+	@Id int
+AS
+	SELECT * FROM [dbo].[Document] WHERE Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateDocument]
+	@Id int,
+	@Titre NVARCHAR(50),
+	@Emplacement NVARCHAR(100)
+AS
+	Update [dbo].[Document]
+	Set Titre=@Titre, Emplacement=@Emplacement
+	Where Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_SelectDocumentEvent]
+	@Id int
+AS
+	SELECT * FROM [dbo].[DocumentEvent] WHERE Id=@Id
+RETURN 0
+
+CREATE PROCEDURE [dbo].[SP_UpdateDocumentEvent]
+	@Id int,
+	@Titre NVARCHAR(50),
+	@Emplacement NVARCHAR(100)
+AS
+	Update [dbo].[DocumentEvent]
+	Set Titre=@Titre, Emplacement=@Emplacement
+	Where Id=@Id
+RETURN 0
+
