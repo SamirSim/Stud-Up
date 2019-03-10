@@ -1,0 +1,186 @@
+﻿<Page x:Class="Projet.PL.Contacts"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Projet.PL"
+      mc:Ignorable="d"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Contacts">
+
+    <Page.Resources>
+        <Style x:Key="myButton" TargetType="Button">
+            <Setter Property="Padding" Value="10 5 10 5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#ecf0f1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <StackPanel x:Name="Carnetdadresse">
+            <Button Click="openaddcontact" Width="130" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Nouveau contact" Style="{StaticResource myButton}" Margin="20 5 5 10">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Viewbox Height="18">
+                        <Canvas Width="22.000" Height="22.000">
+                            <Canvas>
+                                <Path Fill="{DynamicResource PrimaryHueMidBrush}" Data="F1 M 10.000,0.000 L 10.000,10.000 L 0.000,10.000 L 0.000,12.000 L 10.000,12.000 L 10.000,22.000 L 12.000,22.000 L 12.000,12.000 L 22.000,12.000 L 22.000,10.000 L 12.000,10.000 L 12.000,0.000 L 10.000,0.000 Z"/>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+                    <TextBlock Text="Nouveau contact" Margin="5 0 0 0" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                </StackPanel>
+            </Button>
+            <ScrollViewer Margin="0" Height="620">
+                <DataGrid x:Name="contactgrid" AutoGenerateColumns="False" Foreground="#FF5545F7" SelectedIndex="0" CanUserResizeRows="False" CanUserAddRows="False" CanUserDeleteRows="False" MaxColumnWidth="200" AreRowDetailsFrozen="True" RowHeight="120">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn x:Name="selectionner" Header="Select" Visibility="Hidden" IsThreeState="False" />
+                        <DataGridTemplateColumn x:Name="Image" Header="Image" MaxWidth="200" CanUserSort="True" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Width="100" Height="100" Source="{Binding ImageLink}">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                                        </Image.Clip>
+                                    </Image>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="Contact_Id" Header="Contact ID" Binding="{Binding Id}" Visibility="Hidden" IsReadOnly="True"  />
+                        <DataGridTextColumn x:Name="Nom1" Header="Nom" Binding="{Binding Nom}" MaxWidth="200" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Tel" Binding="{Binding NumTel}" MaxWidth="200" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Adresse" Binding="{Binding Adresse}" MaxWidth="200" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Mail" Binding="{Binding Mail}" MaxWidth="200" Width="Auto" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="SiteWeb" Binding="{Binding SiteWeb}" MaxWidth="200" IsReadOnly="True"/>
+                        <DataGridTemplateColumn x:Name="edit" Header="Modifier" MaxWidth="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="edit" Click="edit_Click" ToolTip="Modifier"  Style="{StaticResource myButton}" Width="100" Height="40">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Viewbox Height="18">
+                                                <Canvas Width="24.231" Height="24.250">
+                                                    <Canvas>
+                                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Data="F1 M 3.250,18.313 L 5.438,18.813 L 5.938,21.000 L 3.906,21.406 L 2.844,20.344 L 3.250,18.313 Z M 15.156,6.156 L 18.094,9.094 L 7.656,19.563 L 7.250,17.750 L 7.125,17.125 L 6.500,17.000 L 4.688,16.594 L 15.156,6.156 Z M 18.000,3.281 L 20.969,6.250 L 19.531,7.719 L 16.531,4.719 L 18.000,3.281 Z M 20.969,1.969 C 21.281,1.969 21.608,2.108 21.875,2.375 C 22.408,2.908 22.408,3.623 21.875,4.156 L 21.781,4.250 L 20.000,2.469 L 20.094,2.375 C 20.360,2.108 20.657,1.969 20.969,1.969 Z M 20.969,0.000 C 20.132,0.000 19.321,0.335 18.688,0.969 L 18.594,1.063 L 17.969,0.469 L 17.281,1.156 L 1.688,16.750 L 1.469,16.969 L 1.406,17.281 L 0.313,22.781 L 0.000,24.250 L 1.469,23.938 L 6.969,22.844 L 7.281,22.781 L 7.500,22.563 L 23.094,6.969 L 23.781,6.281 L 23.188,5.688 L 23.250,5.625 L 23.281,5.563 C 24.548,4.296 24.548,2.235 23.281,0.969 C 22.648,0.335 21.806,0.000 20.969,0.000 Z"/>
+                                                    </Canvas>
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Text="Modifier" Margin="5 0 0 0" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn x:Name="delete" Header="Supprimer" MaxWidth="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Name="delete" Click="delete_Click" ToolTip="Supprimer" Style="{StaticResource myButton}" Width="100" Height="40">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Viewbox Height="18">
+                                                <Canvas Width="20.000" Height="24.000">
+                                                    <Canvas>
+                                                        <Path Fill="{DynamicResource PrimaryHueMidBrush}" Data="F1 M 13.000,8.000 L 13.000,19.000 L 15.000,19.000 L 15.000,8.000 L 13.000,8.000 Z M 9.000,8.000 L 9.000,19.000 L 11.000,19.000 L 11.000,8.000 L 9.000,8.000 Z M 5.000,8.000 L 5.000,19.000 L 7.000,19.000 L 7.000,8.000 L 5.000,8.000 Z M 3.000,5.000 L 17.000,5.000 L 17.000,21.000 C 17.000,21.555 16.555,22.000 16.000,22.000 L 4.000,22.000 C 3.445,22.000 3.000,21.555 3.000,21.000 L 3.000,5.000 Z M 8.000,2.000 L 12.000,2.000 L 12.000,3.000 L 8.000,3.000 L 8.000,2.000 Z M 8.000,0.000 C 7.478,0.000 6.940,0.185 6.563,0.563 C 6.185,0.940 6.000,1.478 6.000,2.000 L 6.000,3.000 L 0.000,3.000 L 0.000,5.000 L 1.000,5.000 L 1.000,21.000 C 1.000,22.645 2.355,24.000 4.000,24.000 L 16.000,24.000 C 17.645,24.000 19.000,22.645 19.000,21.000 L 19.000,5.000 L 20.000,5.000 L 20.000,3.000 L 14.000,3.000 L 14.000,2.000 C 14.000,1.478 13.815,0.940 13.438,0.563 C 13.060,0.185 12.522,0.000 12.000,0.000 L 8.000,0.000 Z"/>
+                                                    </Canvas>
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Text="Supprimer" VerticalAlignment="Center" Margin="10 0 0 0" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </ScrollViewer>
+        </StackPanel>
+        <Border Visibility="Collapsed" x:Name="ajoutContactWindow" Grid.Row="1" Background="{DynamicResource MaterialDesignPaper}" BorderBrush="DarkGray" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="460" Height="430" Margin="64,44,36,86">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
+                    <RowDefinition Height="300"></RowDefinition>
+                    <RowDefinition Height="80"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Height="50" VerticalAlignment="Top" Grid.RowSpan="2">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Viewbox Width="30" Height="18" VerticalAlignment="Center" Margin="14 0 0 0">
+                            <Canvas Width="61.250" Height="68.125">
+                                <Canvas>
+                                    <!-- Layer 1/<Compound Path> -->
+                                    <Path StrokeThickness="5.0" Stroke="{DynamicResource PrimaryHueMidBrush}" StrokeMiterLimit="1.0" Data="F1 M 2.500,68.125 C 2.500,52.500 15.000,40.000 30.625,40.000 C 46.250,40.000 58.750,52.500 58.750,68.125 M 49.375,21.250 C 49.375,31.605 40.980,40.000 30.625,40.000 C 20.270,40.000 11.875,31.605 11.875,21.250 C 11.875,10.895 20.270,2.500 30.625,2.500 C 40.980,2.500 49.375,10.895 49.375,21.250"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                        <TextBlock Text=" Contact" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image  x:Name="ImageContact" Width="100" Height="100" ToolTip="Image Contact" Source="C:\Users\BrahimKe\Desktop\Circled User Male_96px.png">
+                            <Image.Clip>
+                                <EllipseGeometry Center="50,50" RadiusX="50" RadiusY="50"/>
+                            </Image.Clip>
+                        </Image>
+                        <Button x:Name="ajouterImage" Click="ajouterImage_Click" Visibility="Visible" Margin="0 20 0 0" ToolTip="Ajouter une image">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="FileImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Ajouter une image" Margin="10 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="modifierImage" Click="ajouterImage_Click" Visibility="Collapsed" Margin="0 20 0 0">
+                            <StackPanel Orientation="Horizontal" ToolTip="Modifier l'image ">
+                                <materialDesign:PackIcon Kind="FileImage" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Modifier l'image" Margin="10 0 0 0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" >
+                        <TextBox materialDesign:HintAssist.Hint="Nom Complet" x:Name="Nom"/>
+                        <TextBox materialDesign:HintAssist.Hint="Numero de téléphone" x:Name="Numero" Margin="0 20 0 0"/>
+                        <TextBox materialDesign:HintAssist.Hint="Adresse" x:Name="Adresse" Margin="0 20 0 0"/>
+                        <TextBox materialDesign:HintAssist.Hint="Mail" x:Name="Mail" Margin="0 20 0 0"/>
+                        <TextBox materialDesign:HintAssist.Hint="Site Web" x:Name="siteWeb" Margin="0 20 0 0"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" >
+                    <Button Visibility="Collapsed" x:Name="Ajouter" Margin="5 5 5 5" Click="Ajouter_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center"/>
+                            <TextBlock Text="Ajouter" Margin="10 0 0 0" VerticalAlignment="Center" ToolTip="Ajouter"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="Modifierbouton" Margin="5 5 5 5" Click="Modifierbouton_Click" ToolTip="Modifier" >
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="BorderColor" VerticalAlignment="Center"/>
+                            <TextBlock Text="Modifier" Margin="10 0 0 0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="cancel" Margin="5 5 5 5" Click="closeaddcontact">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center"/>
+                            <TextBlock Text="Annuler" Margin="10 0 0 0" VerticalAlignment="Center" ToolTip="Annuler"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
